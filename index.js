@@ -15,26 +15,30 @@ class Agv {
 		this.x = x*tileWidth
 		this.y = y*tileHeight
 		this.color = 'green'
+		this.state = 'AVAILABLE'
 		this.destination = {x:this.x,y:this.y}
 		this.angle=0
 		this.velocity=0
 		this.image = null
 		this.image = new Image()
-		this.state = 'AVAILABLE'
 	}
 
 	draw() {
 		c.beginPath()
 		this.image.src = "./images/"+this.color+".png"
 		console.log(this.image.src)
-		c.drawImage(this.image,this.x,this.y,tileWidth,tileWidth)
+		c.save()
+		c.shadowColor = this.color
+		c.shadowOffsetX = 0
+		c.shadowOffsetY = 0 
+		c.shadowBlur = 10
+		c.drawImage(this.image,this.x,this.y,tileWidth,tileHeight)
+		c.restore()
 		c.font = "20px Arial"
 		c.fillStyle = "white"
 		c.textAlign = "center"
 		c.fillText("AGV"+this.id, this.x+tileWidth/2, this.y+tileHeight/2)
 		c.font = "15px Arial"
-		c.fillStyle = "white"
-		c.textAlign = "center"
 		c.fillText(this.state,this.x+tileWidth/2, this.y+tileHeight/2+15)
 	}
 
@@ -67,19 +71,10 @@ class Agv {
 }
 
 const agv1 = new Agv(1, 2, 2)
-const agv2 = new Agv(2, 2, 3)
-const agv3 = new Agv(3, 2, 4)
+const agv2 = new Agv(2, 4, 6)
+const agv3 = new Agv(3, 2, 5)
 
 const agvs = [agv1,agv2,agv3]
-
-function animate() {
-	requestAnimationFrame(animate)
-	c.clearRect(0,0,canvas.width,canvas.height)
-	drawMatrix()
-	agvs.forEach((agv) => {
-		agv.update()
-	})
-}
 
 function drawMatrix() {
 	for (var i =1; i <= columns; i++) {
@@ -94,6 +89,15 @@ function drawMatrix() {
 		c.lineTo(canvas.width,tileHeight*i);
 		c.stroke();
 	}
+}
+
+function animate() {
+	requestAnimationFrame(animate)
+	c.clearRect(0,0,canvas.width,canvas.height)
+	drawMatrix()
+	agvs.forEach((agv) => {
+		agv.update()
+	})
 }
 
 addEventListener('click', (event) =>  
@@ -112,5 +116,7 @@ addEventListener('click', (event) =>
 		})
 
 	})
+
+
 
 animate()
