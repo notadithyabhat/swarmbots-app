@@ -82,6 +82,8 @@ const agv3 = new Agv(3, 2, 5)
 const agvs = [agv1,agv2,agv3]
 
 function drawMatrix() {
+	c.save()
+	c.strokeStyle = 'grey'
 	for (var i =1; i <= columns; i++) {
 		c.beginPath();
 		c.moveTo(tileWidth*i, 0);
@@ -94,6 +96,7 @@ function drawMatrix() {
 		c.lineTo(canvas.width,tileHeight*i);
 		c.stroke();
 	}
+	c.restore()
 }
 
 function animate() {
