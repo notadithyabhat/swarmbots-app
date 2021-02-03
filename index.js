@@ -14,25 +14,30 @@ class Agv {
 		this.id= id
 		this.x = x*tileWidth
 		this.y = y*tileHeight
-		this.color = 'green'
+		this.color = "#50C878"
 		this.state = 'AVAILABLE'
 		this.destination = {x:this.x,y:this.y}
 		this.angle=0
 		this.velocity=0
 		this.image = null
 		this.image = new Image()
+		this.hover = false
+		this.selected = false
 	}
 
 	draw() {
 		c.beginPath()
-		this.image.src = "./images/"+this.color+".png"
-		console.log(this.image.src)
 		c.save()
-		c.shadowColor = this.color
-		c.shadowOffsetX = 0
-		c.shadowOffsetY = 0 
-		c.shadowBlur = 10
-		c.drawImage(this.image,this.x,this.y,tileWidth,tileHeight)
+		if(this.hover||this.selected){
+			c.shadowColor = this.color
+			c.shadowBlur = 15
+		}
+		c.fillStyle=this.color;
+		c.strokeStyle=this.color;
+		c.lineJoin = "round";
+		c.lineWidth = tileWidth/5;
+		c.strokeRect(this.x+(tileWidth/10), this.y+(tileWidth/10), tileWidth-tileWidth/5, tileHeight-tileWidth/5);
+		c.fillRect(this.x+(tileWidth/10), this.y+(tileWidth/10), tileWidth-tileWidth/5, tileHeight-tileWidth/5);
 		c.restore()
 		c.font = "20px Arial"
 		c.fillStyle = "white"
@@ -55,14 +60,14 @@ class Agv {
 		}
 		if(Math.abs(this.destination.y - this.y)<1&&Math.abs(this.destination.x - this.x)<1)
 		{
-			this.color = 'green'
+			this.color = "#50C878"
 			this.state = 'AVAILABLE'
 			this.x = this.destination.x
 			this.y = this.destination.y
 		}
 		else
 		{
-			this.color = 'yellow'
+			this.color = "#FFE338"
 			this.state = 'IN USE'
 			this.x = this.x + this.velocity.x
 			this.y = this.y + this.velocity.y
@@ -106,17 +111,52 @@ addEventListener('click', (event) =>
         mx = event.clientX - rect.left,
         my = event.clientY - rect.top,
         xIndex = Math.round((mx - tileWidth * 0.5) / tileWidth),
+		yIndex = Math.round((my - tileWidth * 0.5) / tileHeight);
+
+        var x = xIndex * tileWidth,
+         	y = yIndex * tileHeight;
+
+
+		agvs.forEach((agv) => {
+			if(agv.x==x&&agv.y==y){
+				agv.selected = agv.selected? false : true
+				//console.log(agv.selected)
+			}
+			else {
+				if(agv.selected){
+					var flag=true;
+					agvs.forEach((agv2) => {
+						if((agv2.x==x&&agv2.y==y)){
+							flag=false
+							agv.selected=false
+						}
+					})
+					if(flag){
+						agv.destination={x:Math.floor(x),y:Math.floor(y)}
+						agv.selected = false
+					}
+					//console.log(agv.selected)
+				}	
+			}
+
+		})
+	})
+
+
+
+canvas.onmousemove = function(event) {
+	var rect = canvas.getBoundingClientRect(),
+        mx = event.clientX - rect.left,
+        my = event.clientY - rect.top,
+        xIndex = Math.round((mx - tileWidth * 0.5) / tileWidth),
 		yIndex = Math.round((my - tileHeight * 0.5) / tileHeight);
 
         var x = xIndex * tileWidth,
          	y = yIndex * tileHeight;
 
-		agvs.forEach((agv) => {
-			agv.destination={x:Math.floor(x),y:Math.floor(y)}
+        agvs.forEach((agv) => {
+			agv.hover=(x==agv.x&&y==agv.y)
 		})
-
-	})
-
-
+}
 
 animate()
