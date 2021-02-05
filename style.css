@@ -1,0 +1,44 @@
+#menu {
+    display: none;
+    position: absolute;
+    width: 100px;
+    background-color: white;
+    box-shadow: 0 0 5px grey;
+    border-radius: 3px;
+}
+
+#menu button {
+    width: 100%;
+    background-color: white;
+    border: none;
+    margin: 0;
+    padding: 10px;
+}
+
+#menu button:hover:enabled {
+    background-color: grey;
+    color:white;
+  }
+
+#menu button:disabled,
+button[disabled]{
+  border: 1px solid #999999;
+  background-color: white
+  color: #666666;
+}
+
+#info {
+  visibility: hidden;
+  width: 80px;
+  background-color: white;
+  color: darkgrey;
+  text-align: left;
+  padding: 5px 0;
+  padding-left: 20px;
+  border-radius: 6px;
+  box-shadow: 0 0 5px grey;
+ 
+  /* Position the tooltip text - see examples below! */
+  position: absolute;
+  z-index: 1;
+}
