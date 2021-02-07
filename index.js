@@ -4,14 +4,14 @@ const c = canvas.getContext('2d') //context
 canvas.width = innerWidth/1.5
 canvas.height = innerHeight/1.5
 
-const columns = 12, rows = 9;
+const columns = 12, rows = 8;
 
 const tileWidth  = Math.round(canvas.width / columns),
  tileHeight = Math.round(canvas.height / rows);
 
 
 function getFont(ratio) {
-    var size = canvas.width * ratio;
+    var size = tileWidth * ratio;
     return (size|0) + 'px Arial';
 }
 
@@ -34,7 +34,7 @@ class Destination {
 		c.shadowColor = this.color
 		c.shadowBlur = 30
 		c.strokeRect(this.x+tileWidth/40,this.y+tileWidth/40,this.Width-tileWidth/20,this.Height-tileWidth/20)
-		c.font = "20px Arial"
+		c.font = getFont(0.2)
 		c.fillStyle = this.color
 		c.textAlign = "center"
 		c.fillText("AGV"+this.id, this.x+this.Width/2, this.y+this.Height/2)
@@ -91,11 +91,11 @@ class Agv {
 		c.strokeRect(this.x+(tileWidth/10), this.y+(tileWidth/10), tileWidth-tileWidth/5, tileHeight-tileWidth/5);
 		c.fillRect(this.x+(tileWidth/10), this.y+(tileWidth/10), tileWidth-tileWidth/5, tileHeight-tileWidth/5);
 		c.restore()
-		c.font = getFont(0.02)
+		c.font = getFont(0.2)
 		c.fillStyle = "white"
 		c.textAlign = "center"
 		c.fillText("AGV"+this.id, this.x+tileWidth/2, this.y+tileHeight/2)
-		c.font = getFont(0.012)
+		c.font = getFont(0.12)
 		c.fillText(this.state,this.x+tileWidth/2, this.y+tileHeight/2+15)
 	}
 
@@ -180,11 +180,11 @@ class SuperAgv {
 		c.strokeRect(this.x+(this.tileWidth/10), this.y+(this.tileWidth/10), this.tileWidth-this.tileWidth/5, this.tileHeight-this.tileWidth/5);
 		c.fillRect(this.x+(this.tileWidth/10), this.y+(this.tileWidth/10), this.tileWidth-this.tileWidth/5, this.tileHeight-this.tileWidth/5);
 		c.restore()
-		c.font = getFont(0.02)
+		c.font = getFont(0.2)
 		c.fillStyle = "white"
 		c.textAlign = "center"
 		c.fillText("AGV"+this.agv1.id+"+"+this.agv2.id, this.x+this.tileWidth/2, this.y+this.tileHeight/2)
-		c.font = getFont(0.012)
+		c.font = getFont(0.12)
 		c.fillText(this.state,this.x+this.tileWidth/2, this.y+this.tileHeight/2+15)
 	}
 
@@ -216,7 +216,6 @@ class SuperAgv {
 				else{
 					this.y2=this.y
 				}
-				console.log(this.x,this.y,this.x2,this.y2)
 			}
 			else
 			{
@@ -240,8 +239,8 @@ class SuperAgv {
 var agv1 = new Agv(1, 2, 2)
 var agv2 = new Agv(2, 3, 2)
 var agv3 = new Agv(3, 2, 5,'UNAVAILABLE')
-
-var agvs = [agv1,agv2,agv3]
+var agv4 = new Agv(4, 2, 7)
+var agvs = [agv1,agv2,agv3,agv4]
 
 var hoverX=null
 var hoverY=null
@@ -249,6 +248,8 @@ var hoverColor=null
 
 function drawMatrix() {
 	c.save()
+	c.strokeStyle = 'black'
+	c.strokeRect(0, 0, canvas.width, canvas.height);
 	c.strokeStyle = 'grey'
 	for (var i =1; i <= columns; i++) {
 		c.beginPath();
@@ -383,7 +384,6 @@ canvas.onmousemove = function(event) {
         		isSuper=true
         		if(((agv.y==agv.y2)&&((x+agv.tileWidth)>canvas.width+1))||((agv.x==agv.x2)&&((y+agv.tileHeight)>canvas.height+1)))
         		{
-        			console.log("Here"+(x+agv.tileWidth),canvas.width)
         			isOccupied=true
         		}
         	}
@@ -446,11 +446,10 @@ info.style.width=tileWidth
 var menuNode = document.getElementById('menu');
 menuNode.style.width=tileWidth
 document.getElementById('enable').addEventListener('click', () => {
-	console.log("Enter")
 	var state=document.getElementById("enable").innerHTML
 	var r = canvas.getBoundingClientRect()
 	agvs.forEach((agv) => {
-		if((agv.x==(parseInt(menuNode.style.left)-r.left-tileWidth))&&(agv.y==(parseInt(menuNode.style.top)-r.top - tileHeight)))
+		if((agv.x==Math.ceil(parseInt(menuNode.style.left)-r.left-tileWidth))&&(agv.y==Math.ceil(parseInt(menuNode.style.top)-r.top - tileHeight)))
 		{
 			if(state=='Enable')
 			{
@@ -470,8 +469,7 @@ document.getElementById('dock').addEventListener('click', () => {
 	if(mode=='Dock')
 	{
 		agvs.forEach((agv) => {
-			console.log((agv.y,(parseInt(menuNode.style.top) - r.top - agv.tileHeight)))
-			if((agv.x==(parseInt(menuNode.style.left)-r.left-tileWidth))&&(agv.y==(parseInt(menuNode.style.top) - r.top - tileHeight)))
+			if((agv.x==Math.ceil(parseInt(menuNode.style.left)-r.left-tileWidth))&&agv.y==Math.ceil((parseInt(menuNode.style.top) - r.top - tileHeight)))
 			{
 				if(flag){
 					var agv2=checkNeighbors(1,agv)
@@ -485,9 +483,9 @@ document.getElementById('dock').addEventListener('click', () => {
 			}
 		})
 	}
-	else {
+	else{
 		agvs.forEach((agv) => {
-			if((agv.x==(parseInt(menuNode.style.left)-r.left-tileWidth))&&(agv.y==(parseInt(menuNode.style.top) - r.top - tileHeight)))
+			if((agv.x==Math.ceil(parseInt(menuNode.style.left)-r.left-tileWidth))&&(agv.y==Math.ceil(parseInt(menuNode.style.top) - r.top - tileHeight)))
 			{
 				if(agv.super){
 					var agv1 = destroyAgv(agv)
@@ -524,6 +522,7 @@ canvas.addEventListener('contextmenu', function(event) {
      	neighbor=false;
      	valid = false;
      	state = null;
+    var superSelected=false;
 
 	agvs.forEach((agv) => {
 		if(agv.x==x&&agv.y==y){
@@ -531,6 +530,9 @@ canvas.addEventListener('contextmenu', function(event) {
 			state=agv.state
 			neighbor=checkNeighbors(0,agv)
 			isSuper=agv.super
+			if(agv.super&&agv.hover){
+				superSelected=true
+			}
 		}
 	})
 	if(!valid){
@@ -552,7 +554,9 @@ canvas.addEventListener('contextmenu', function(event) {
 	}
 	if(isSuper)
 	{
-		document.getElementById("dock").disabled=false
+		if(state=='UNAVAILABLE')
+		document.getElementById("dock").disabled=true
+		if(superSelected)
 		document.getElementById("dock").innerHTML = "Undock"
 	}
 	menuNode.style.display = 'initial';
