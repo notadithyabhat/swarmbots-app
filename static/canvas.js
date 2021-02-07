@@ -109,7 +109,7 @@ class Agv {
 				x: Math.cos(this.angle),
 				y: Math.sin(this.angle)
 			}
-			if(Math.hypot(this.destination.y - this.y,this.destination.x - this.x)<1)
+			if(Math.hypot(this.destination.y - this.y,this.destination.x - this.x)<2)
 			{
 				this.color = "#50C878"
 				this.state = 'AVAILABLE'
@@ -197,7 +197,7 @@ class SuperAgv {
 				x: Math.cos(this.angle),
 				y: Math.sin(this.angle)
 			}
-			if(Math.hypot(this.destination.y - this.y,this.destination.x - this.x)<1)
+			if(abs(Math.hypot(this.destination.y - this.y,this.destination.x - this.x))<2)
 			{
 				this.color = "#50C878"
 				this.state = 'AVAILABLE'
@@ -318,7 +318,7 @@ function animate() {
 	Destination.draw(hoverX,hoverY,hoverColor,width,height)
 }
 
-var selectedAgv=null
+var one_selected=false;
 
 addEventListener('click', (event) =>  
 	{
@@ -334,10 +334,17 @@ addEventListener('click', (event) =>
         var x = xIndex * tileWidth,
          	y = yIndex * tileHeight;
 
-
 		agvs.forEach((agv) => {
 			if((agv.x==x&&agv.y==y)&&(agv.state=='AVAILABLE')){
-					agv.selected = agv.selected? false : true
+				if(agv.selected&&one_selected)
+				{
+					agv.selected=false
+					one_selected=false
+				}
+				else if(!one_selected) {
+					agv.selected=true
+					one_selected=true
+				}
 			}
 			else {
 				if(agv.selected){
@@ -347,10 +354,11 @@ addEventListener('click', (event) =>
 						flag=false
 					}
 					if(flag){
+						console.log("Enter")
 						agv.destination.x=Math.floor(x)
 						agv.destination.y=Math.floor(y)
-						agv.selected = false
-						selectedAgv=null
+						agv.selected=false
+						one_selected=false
 					}
 				}	
 			}
