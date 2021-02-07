@@ -1,10 +1,16 @@
 #menu {
     display: none;
     position: absolute;
-    width: 100px;
     background-color: white;
     box-shadow: 0 0 5px grey;
     border-radius: 3px;
+}
+#canvas {
+    padding-left: 0;
+    padding-right: 0;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
 }
 
 #menu button {
@@ -29,16 +35,11 @@ button[disabled]{
 
 #info {
   visibility: hidden;
-  width: 80px;
   background-color: white;
   color: darkgrey;
   text-align: left;
   padding: 5px 0;
-  padding-left: 20px;
   border-radius: 6px;
   box-shadow: 0 0 5px grey;
- 
-  /* Position the tooltip text - see examples below! */
   position: absolute;
-  z-index: 1;
 }
