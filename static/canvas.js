@@ -9,7 +9,6 @@ const columns = 12, rows = 8;
 const tileWidth  = Math.round(canvas.width / columns),
  tileHeight = Math.round(canvas.height / rows);
 
-
 function getFont(ratio) {
     var size = tileWidth * ratio;
     return (size|0) + 'px Arial';
@@ -122,8 +121,8 @@ class Agv {
 				this.color = "#FFE338"
 				this.state = 'IN USE'
 				this.destination.draw()
-				this.x = this.x + this.velocity.x
-				this.y = this.y + this.velocity.y
+				this.x = this.x + this.velocity.x*2
+				this.y = this.y + this.velocity.y*2
 			}
 		}
 		else {
@@ -222,10 +221,10 @@ class SuperAgv {
 				this.color = "#FFE338"
 				this.state = 'IN USE'
 				this.destination.draw()
-				this.x = this.x + this.velocity.x
-				this.y = this.y + this.velocity.y
-				this.x2 = this.x2 + this.velocity.x
-				this.y2 = this.y2 + this.velocity.y
+				this.x = this.x + this.velocity.x*2
+				this.y = this.y + this.velocity.y*2
+				this.x2 = this.x2 + this.velocity.x*2
+				this.y2 = this.y2 + this.velocity.y*2
 			}
 		}
 		else {

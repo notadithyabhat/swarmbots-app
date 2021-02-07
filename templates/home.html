@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='main.css') }}">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="shortcut icon" href="#">
+	<title>SwarmbotApp</title>
+	
+</head>
+<body>
+  <header class="site-header">
+      <nav class="navbar navbar-expand-md navbar-dark bg-primary fixed-top">
+        <div class="container">
+          <a class="navbar-brand mr-4 mx-auto" href="/">Swarmbots App</a>
+        </div>
+      </nav>
+  </header>
+  <canvas id='canvas'></canvas>
+	<div id="menu" class="menu">
+      <div>
+        <button id="enable" >Enable</button>
+        <button id="dock">Dock</button>
+      </div>
+    </div>
+    <div id="info" class="info"></div>
+    <script src="{{ url_for('static', filename='canvas.js') }}"></script>
+	</div>
+<footer class="page-footer font-small bg-primary fixed-bottom">
+  <!-- Copyright -->
+  <div class="footer-copyright text-center py-3" style="color: white">© 2021 Copyright:
+    <a style ="color: white" href="https://swarmbots.herokuapp.com/" >> swarmbots.herokuapp.com/</a>
+  </div>
+</footer>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+</body>
+</html>
+
+
+
+
