@@ -328,6 +328,9 @@ addEventListener('click', (event) =>
         xIndex = Math.round((mx - tileWidth * 0.5) / tileWidth),
 		yIndex = Math.round((my - tileWidth * 0.5) / tileHeight);
 
+		if(mx<0||my<0||mx>canvas.width||my>canvas.height){
+			return;
+		}
         var x = xIndex * tileWidth,
          	y = yIndex * tileHeight;
 
