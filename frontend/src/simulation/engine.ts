@@ -214,7 +214,8 @@ function drawDestinationMarker(
   color: string,
   w: number,
   h: number,
-  tileWidth: number
+  tileWidth: number,
+  tileHeight: number
 ) {
   if (x == null || y == null) return;
   c.save();
@@ -233,7 +234,7 @@ function drawDestinationMarker(
   c.fillStyle = color;
   c.textAlign = 'center';
   c.textBaseline = 'middle';
-  c.fillText(`(${Math.round(x / tileWidth)},${Math.round(y / h)})`, x + w / 2, y + h / 2);
+  c.fillText(`(${Math.round(x / tileWidth)},${Math.round(y / tileHeight)})`, x + w / 2, y + h / 2);
   c.restore();
 }
 
@@ -306,7 +307,8 @@ export function renderFrame(
         '#3b82f6',
         agv.tileWidth,
         agv.tileHeight,
-        tileWidth
+        tileWidth,
+        tileHeight
       );
     }
     drawAgvTile(c, agv, tileWidth);
@@ -314,6 +316,6 @@ export function renderFrame(
 
   // Hover preview
   if (hoverX !== null && hoverY !== null && hoverColor) {
-    drawDestinationMarker(c, hoverX, hoverY, hoverColor, hoverTileW, hoverTileH, tileWidth);
+    drawDestinationMarker(c, hoverX, hoverY, hoverColor, hoverTileW, hoverTileH, tileWidth, tileHeight);
   }
 }
